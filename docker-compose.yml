@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  # Node services
+  storage-app:
+    container_name: storage_app #optional
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    working_dir: /app
+
+  mysqldb:
+    image: mysql
+    restart: always
+    env_file: ./.env
+    environment:
+      MYSQL_ROOT_PASSWORD: $DB_PASSWORD
+      MYSQL_DATABASE: $DB_DATABASE
+    ports:
+      - $DB_PORT:$DB_PORT
+    volumes:
+      - db-config:/etc/mysql
+      - db-data:/var/lib/mysql
+      - ./db/backup/files/:/data_backup/data
+
+volumes:
+  db-config:
+  db-data:
+
