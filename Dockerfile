@@ -10,7 +10,6 @@ COPY package*.json ./
 RUN npm install -g nodemon
 RUN npm install -g mysql
 RUN npm install -g db-migrate
-
 #'npm install' bad practice => possible problems
 RUN npm ci
 #copy alll my filels to the workdir (except files in .dockerignore)
