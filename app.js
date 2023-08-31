@@ -25,7 +25,7 @@ app.get('/', (req, res) => {
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        const { user_id } = req.body;
+        const { user_id } = req.params;
         const dir = `./uploads/${user_id}`
         fs.exists(dir, exist => {
                 if (!exist) {
@@ -43,7 +43,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-app.post('/upload', upload.single('test'), function (req, res, next) {
+app.post('/upload/:user_id', upload.single('test'), function (req, res) {
     const file = req.file;
     if (!file) {
         const error = new Error('Please upload a file');
