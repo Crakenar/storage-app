@@ -1,6 +1,8 @@
 const express = require('express');
 const mysql = require('mysql2')
 const fs = require('fs');
+const path = require('path');
+
 require('dotenv').config();
 const multer = require('multer');
 
@@ -67,6 +69,31 @@ app.post('/upload/:user_id', upload.single('test'), function (req, res) {
     }
 });
 
+app.get('/download/:user_id/files', function (req, res) {
+    const directoryPath = path.join(__dirname, 'uploads', req.params.user_id);
+    fs.readdir(directoryPath, function (err, files) {
+        //handling error
+        if (err) {
+            return console.log('Unable to scan directory: ' + err);
+        }
+        //listing all files of the user
+        let filesInfos = [];
+        console.log('yolo',getFilesFromUser(req.params.user_id));
+        files.forEach(function (file) {
+            filesInfos.push({
+                name: file,
+                url: `/uploads/${req.params.user_id}/${file}`
+            })
+            console.log(file);
+        });
+        res.status(200).send(filesInfos);
+    });
+});
+
+app.get('/download/:user_id/:fileName', function (req, res) {
+    downloadFile(res, req.params.fileName, req.params.user_id);
+});
+
 
 function saveFileInDatabase(fileName, path ,user_id) {
     try {
@@ -74,6 +101,26 @@ function saveFileInDatabase(fileName, path ,user_id) {
         return {success: true};
     }catch (e) {
         return {success: false, message: e.message};
+    }
+}
+
+function getFilesFromUser(user_id) {
+    try {
+        return connection.query('SELECT * FROM documents WHERE user_id = ?', [user_id]);
+    } catch (e) {
+        console.log(`Error while requesting documents for the user ${user_id}`,e.message)
+    }
+}
+
+function downloadFile(res, fileName, user_id) {
+    try {
+        res.download(`./uploads/${user_id}/${fileName}`, (err) => {
+            if (err) {
+                console.log('Error while downloading the file',err.message);
+            }
+        });
+    } catch (e) {
+        console.log(`Error downloadFile for the user ${user_id}`,e.message)
     }
 }
 
