@@ -78,7 +78,7 @@ app.get('/download/:user_id/files', function (req, res) {
         }
         //listing all files of the user
         let filesInfos = [];
-        console.log('yolo',getFilesFromUser(req.params.user_id));
+        // console.log('yolo',getFilesFromUser(req.params.user_id));
         files.forEach(function (file) {
             filesInfos.push({
                 name: file,
