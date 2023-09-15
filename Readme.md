@@ -11,7 +11,7 @@
 5. And you are good to go !
 
 ![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
-![alt text]([http://url/to/img.png](https://help.xmpie.com/Circle/Help/fr/Build/Managing_Components_Library/Working_with_uImage/Dynamic_Image_Effect_Film2.jpg)https://help.xmpie.com/Circle/Help/fr/Build/Managing_Components_Library/Working_with_uImage/Dynamic_Image_Effect_Film2.jpg)
+![alt text](https://help.xmpie.com/Circle/Help/fr/Build/Managing_Components_Library/Working_with_uImage/Dynamic_Image_Effect_Film2.jpg)
 
 > [!NOTE]
 > Do not forget to add your own .env file <br>
